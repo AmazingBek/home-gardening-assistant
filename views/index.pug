@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  h1 Home Gardening Assistant
+  p This web application was created to fulfill Web Technology module’s requirements and does not represent an actual company or service
+
+  form(action="/plants", method="POST")
+    label(for="type") Plant Type
+    input(type="text", id="type", name="type" required)
+    label(for="variety") Variety
+    input(type="text", id="variety", name="variety" required)
+    label(for="plantingDate") Planting Date
+    input(type="date", id="plantingDate", name="plantingDate" required)
+    label(for="location") Location
+    input(type="text", id="location", name="location" required)
+    button(type="submit") Add Plant
+
+  if plants.length
+    table
+      thead
+        tr
+          th Type
+          th Variety
+          th Planting Date
+          th Location
+          th Actions
+      tbody
+        each plant in plants
+          tr
+            td= plant.type
+            td= plant.variety
+            td= new Date(plant.plantingDate).toLocaleDateString()
+            td= plant.location
+            td
+              form(action=`/plants/${plant._id}`, method="POST", style="display:inline")
+                button(type="submit") Edit
+              form(action=`/plants/delete/${plant._id}`, method="POST", style="display:inline")
+                button(type="submit") Delete
